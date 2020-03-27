@@ -6,12 +6,16 @@ class Subject extends Component {
   // 최신 JavaScript는 function을 생략 function render() -> render()
   render() {
     return(
-      // 엄밀히 말하면 이건 JavaScript가 아니고 페이스북에서 개발한 jsx로서
+      // 엄밀히 말하면 이건(태그를 바로 쓰는 것) JavaScript가 아니고 페이스북에서 개발한 jsx로서
       // jsx식으로 코드를 작성하면 create react app이 자동으로 jsx -> JavaScript로 컨버팅 해줌
       <header>
-          <h1>WEB</h1>
-          World wide web
+          <h1>{this.props.title}</h1>
+          {this.props.sub}
       </header>
+      // <header>
+      //     <h1>WEB</h1>
+      //     World wide web
+      // </header>
     );
   }
 }
@@ -46,7 +50,8 @@ class App extends Component{
     return (
       // component는 하나의 최상위 태그만을 포함해야한다
       <div className="App">
-        <Subject></Subject>
+        <Subject title="Web" sub="World wide web"></Subject>
+        {/* <Subject></Subject> */}
         <Toc></Toc>
         <Content></Content>
       </div>
