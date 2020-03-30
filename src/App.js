@@ -30,12 +30,15 @@ class App extends Component {
     return (
       // component는 하나의 최상위 태그만을 포함해야한다
       <div className="App">
-        {/* <Subject 
+        <Subject 
           title={this.state.subject.title} 
-          sub={this.state.subject.sub}>
-        </Subject> */}
-        {/* <Subject></Subject> */}
-        <header>
+          sub={this.state.subject.sub}
+          onChangePage={function() {
+            this.setState({mode:'Welcome'});
+          }.bind(this)}
+        >
+        </Subject>
+        {/* <header>
             <h1><a href="/" onClick={function(e){
               // preventDefault() : 기본 적인 동작을 막는 것;
               // 여기서는 a태그의 동작을 막는데 a태그는 이동을 하면서 reload되는데 그것을 막아줌
@@ -48,7 +51,7 @@ class App extends Component {
               // bind(this)를 하지 않으면 this, 즉 component를 인식하지 못함
             }.bind(this)}>{this.state.subject.title}</a></h1>
             {this.state.subject.sub}
-        </header>
+        </header> */}
         <TOC data={this.state.contents}></TOC>
         <Content title={_title} sub={_desc}></Content>
       </div>

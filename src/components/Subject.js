@@ -8,7 +8,10 @@ class Subject extends Component {
         // 엄밀히 말하면 이건(태그를 바로 쓰는 것) JavaScript가 아니고 페이스북에서 개발한 jsx로서
         // jsx식으로 코드를 작성하면 create react app이 자동으로 jsx -> JavaScript로 컨버팅 해줌
         <header>
-            <h1><a href="/">{this.props.title}</a></h1>
+            <h1><a href="/" onClick={function(e) {
+              e.preventDefault();
+              this.props.onChangePage();
+            }.bind(this)}>{this.props.title}</a></h1>
             {this.props.sub}
         </header>
         // <header>
