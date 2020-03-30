@@ -9,6 +9,7 @@ class App extends Component {
     super(props);
     this.state = {
       mode:'read',
+      selected_content_id:2,
       subject:{title:'WEB', sub:'World wide web'},
       Welcome:{title:'Welcome', desc:'Hello, React!!'},
       contents:[
@@ -24,8 +25,16 @@ class App extends Component {
       _title = this.state.Welcome.title;
       _desc = this.state.Welcome.desc;
     } else if(this.state.mode === 'read') {
-      _title = this.state.contents[0].title;
-      _desc = this.state.contents[0].desc;
+      var i = 0;
+      while(i < this.state.contents.length) {
+        var data = this.state.contents[i];
+        if(data.id === this.state.selected_content_id) {
+          _title = data.title;
+          _desc = data.desc;
+          break;
+        }
+        i += 1;
+      }
     }
     return (
       // component는 하나의 최상위 태그만을 포함해야한다
@@ -52,7 +61,16 @@ class App extends Component {
             }.bind(this)}>{this.state.subject.title}</a></h1>
             {this.state.subject.sub}
         </header> */}
-        <TOC data={this.state.contents}></TOC>
+        <TOC 
+          onChangePage={function(id) {
+            this.setState({
+              mode:'read',
+              selected_content_id:Number(id)
+            });
+          }.bind(this)} 
+          data={this.state.contents}
+        >
+        </TOC>
         <Content title={_title} sub={_desc}></Content>
       </div>
     );
