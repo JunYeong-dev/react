@@ -72,7 +72,11 @@ class App extends Component {
           data={this.state.contents}
         >
         </TOC>
-        <Control></Control>
+        <Control onChangeMode={function(_mode) {
+          this.setState({
+            mode:_mode
+          });
+        }.bind(this)}></Control>
         <Content title={_title} sub={_desc}></Content>
       </div>
     );
