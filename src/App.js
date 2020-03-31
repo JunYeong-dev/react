@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Subject from "./components/Subject";
 import TOC from "./components/TOC";
 import Control from "./components/Control";
-import Content from "./components/Content";
+import ReadContent from "./components/ReadContent";
+import CreateContent from "./components/CreateContent";
 import './App.css';
 
 class App extends Component {
@@ -21,10 +22,11 @@ class App extends Component {
     }
   }
   render() {
-    var _title, _desc = null;
+    var _title, _desc, _article = null;
     if(this.state.mode === 'Welcome') {
       _title = this.state.Welcome.title;
       _desc = this.state.Welcome.desc;
+      _article = <ReadContent title={_title} sub={_desc}></ReadContent>;
     } else if(this.state.mode === 'read') {
       var i = 0;
       while(i < this.state.contents.length) {
@@ -36,6 +38,9 @@ class App extends Component {
         }
         i += 1;
       }
+      _article = <ReadContent title={_title} sub={_desc}></ReadContent>;
+    } else if(this.state.mode === 'create') {
+      _article = <CreateContent></CreateContent>;
     }
     return (
       // component는 하나의 최상위 태그만을 포함해야한다
@@ -77,7 +82,7 @@ class App extends Component {
             mode:_mode
           });
         }.bind(this)}></Control>
-        <Content title={_title} sub={_desc}></Content>
+        {_article}
       </div>
     );
   }
