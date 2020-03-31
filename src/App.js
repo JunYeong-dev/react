@@ -9,8 +9,9 @@ import './App.css';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.max_content_id = 3;
     this.state = {
-      mode:'read',
+      mode:'create',
       selected_content_id:2,
       subject:{title:'WEB', sub:'World wide web'},
       Welcome:{title:'Welcome', desc:'Hello, React!!'},
@@ -40,7 +41,26 @@ class App extends Component {
       }
       _article = <ReadContent title={_title} sub={_desc}></ReadContent>;
     } else if(this.state.mode === 'create') {
-      _article = <CreateContent></CreateContent>;
+      _article = <CreateContent onSubmit={function(_title, _desc) {
+        this.max_content_id += 1;
+        // push의 경우 기존의 값이 바뀜; 기존 contents는 값이 데이터가 3개, 바뀐(push) 후 데이터 4개
+        // 이 방법이 좋지 않은데 그 이유는 후에 성능 개선이 굉장히 어려워짐
+        // this.state.contents.push({
+        //   id:this.max_content_id, title:_title, desc:_desc
+        // });
+
+        // this.setState({
+        //   contents:this.state.contents
+        // });
+        
+        var _contents = this.state.contents.concat({
+          id:this.max_content_id, title:_title, desc:_desc
+        });
+
+        this.setState({
+          contents:_contents
+        });
+      }.bind(this)}></CreateContent>;
     }
     return (
       // component는 하나의 최상위 태그만을 포함해야한다
