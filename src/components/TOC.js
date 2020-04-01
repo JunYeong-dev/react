@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 
 class TOC extends Component {
+    // 불필요한 render함수의 호출을 막기 위해 사용하는 함수
+    // 매개변수는 2개를 받을 수 있음, 각각 새로운 변한 props와 state
+    shouldComponentUpdate(newProps, newState) {
+      // newProps.data; this.props.data 각각 새로 변환된 props와 기존의 props
+      // return값이 true면 render함수 호출, false면 render함수를 호출하지 않음
+      if(this.props.data === newProps.data) {
+        return false;
+      } 
+      return true;
+    }
     render() {
       var lists = [];
       var data= this.props.data;

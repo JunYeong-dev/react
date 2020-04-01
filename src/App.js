@@ -45,6 +45,11 @@ class App extends Component {
         this.max_content_id += 1;
         // push의 경우 기존의 값이 바뀜; 기존 contents는 값이 데이터가 3개, 바뀐(push) 후 데이터 4개
         // 이 방법이 좋지 않은데 그 이유는 후에 성능 개선이 굉장히 어려워짐
+        // TOC의 shouldComponentUpdate와 밀접한 관련이 있는데 
+        // 현재 TOC의 shouldComponentUpdate에서는 원래의 데이터와 새로 변한 데이터을 비교해서
+        // render의 호출을 결정하는데 push의 경우 원본 데이터를 변경하는 것이기 때문에 
+        // 원본 데이터와 변한 데이터의 값이 항상 일치하게 되는 문제가 발생하게 된다
+
         // this.state.contents.push({
         //   id:this.max_content_id, title:_title, desc:_desc
         // });
@@ -53,6 +58,7 @@ class App extends Component {
         //   contents:this.state.contents
         // });
         
+        // concat의 경우 원본 데이터는 변하지 않는다
         var _contents = this.state.contents.concat({
           id:this.max_content_id, title:_title, desc:_desc
         });
