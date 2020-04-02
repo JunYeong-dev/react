@@ -4,6 +4,7 @@ import TOC from "./components/TOC";
 import Control from "./components/Control";
 import ReadContent from "./components/ReadContent";
 import CreateContent from "./components/CreateContent";
+import UpdateContent from "./components/UpdateContent";
 import './App.css';
 
 class App extends Component {
@@ -22,24 +23,26 @@ class App extends Component {
       ]
     }
   }
-  render() {
+  getReadContent(){
+    var i = 0;
+      while(i < this.state.contents.length) {
+        var data = this.state.contents[i];
+        if(data.id === this.state.selected_content_id) {
+          return data;
+        }
+        i += 1;
+      }
+  }
+
+  getContent() {
     var _title, _desc, _article = null;
     if(this.state.mode === 'Welcome') {
       _title = this.state.Welcome.title;
       _desc = this.state.Welcome.desc;
       _article = <ReadContent title={_title} sub={_desc}></ReadContent>;
     } else if(this.state.mode === 'read') {
-      var i = 0;
-      while(i < this.state.contents.length) {
-        var data = this.state.contents[i];
-        if(data.id === this.state.selected_content_id) {
-          _title = data.title;
-          _desc = data.desc;
-          break;
-        }
-        i += 1;
-      }
-      _article = <ReadContent title={_title} sub={_desc}></ReadContent>;
+      var _content = this.getReadContent();
+      _article = <ReadContent title={_content.title} sub={_content.desc}></ReadContent>;
     } else if(this.state.mode === 'create') {
       _article = <CreateContent onSubmit={function(_title, _desc) {
         this.max_content_id += 1;
@@ -73,10 +76,35 @@ class App extends Component {
         // var b = Object.assign({}, a);
 
         this.setState({
-          contents:_contents
+          contents:_contents,
+          mode:'read',
+          selected_content_id:this.max_content_id
         });
       }.bind(this)}></CreateContent>;
+    } else if(this.state.mode === 'update') {
+      var _content = this.getReadContent();
+      _article = <UpdateContent data={_content} onSubmit={function(_id, _title, _desc) {
+        var _contents = Array.from(this.state.contents);
+        var i = 0;
+        while(i < _contents.length) {
+          if(_contents[i].id === _id) {
+            _contents[i] = {id:_id, title:_title, desc:_desc}
+            break;
+          }
+          i += 1;
+        }
+        this.setState({
+          contents:_contents,
+          mode:'read'
+        });
+      }.bind(this)}></UpdateContent>;
     }
+
+    return _article;
+  }
+
+  render() {
+    
     return (
       // component는 하나의 최상위 태그만을 포함해야한다
       <div className="App">
@@ -117,7 +145,7 @@ class App extends Component {
             mode:_mode
           });
         }.bind(this)}></Control>
-        {_article}
+        {this.getContent()}
       </div>
     );
   }
