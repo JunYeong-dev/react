@@ -43,6 +43,7 @@ class App extends Component {
     } else if(this.state.mode === 'create') {
       _article = <CreateContent onSubmit={function(_title, _desc) {
         this.max_content_id += 1;
+        // 불변성 immutable
         // push의 경우 기존의 값이 바뀜; 기존 contents는 값이 데이터가 3개, 바뀐(push) 후 데이터 4개
         // 이 방법이 좋지 않은데 그 이유는 후에 성능 개선이 굉장히 어려워짐
         // TOC의 shouldComponentUpdate와 밀접한 관련이 있는데 
@@ -62,6 +63,14 @@ class App extends Component {
         var _contents = this.state.contents.concat({
           id:this.max_content_id, title:_title, desc:_desc
         });
+
+        // 이런 방법도 있음; 배열을 복제하는 것 -> 복제이기 때문에 내용은 같지만 === 으로 비교했을 때는 false가 나오게 된다
+        // var _contents = Array.from(this.state.contents);
+        // _contents.push({id:this.max_content_id, title:_title, desc:_desc});
+
+        // 객체를 복제하는 방법
+        // var a = {name:'test'}
+        // var b = Object.assign({}, a);
 
         this.setState({
           contents:_contents
